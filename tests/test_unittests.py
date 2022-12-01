@@ -30,7 +30,7 @@ class AdventOfCodeTests(unittest.TestCase):
         try:
             print(f'\n Day {day_no} - Test', flush=True)
 
-            expected_result = (15, 1134)
+            expected_result = (24000, 45000)
 
             # Source data
             input_path = input_data_path.joinpath(f'{day_no}_test.txt')
@@ -55,7 +55,7 @@ class AdventOfCodeTests(unittest.TestCase):
         try:
             print(f'\n Day {day_no} - Actual', flush=True)
 
-            expected_result = (524, 1235430)
+            expected_result = (70720, 207148)
 
             # Source data
             input_path = input_data_path.joinpath(f'{day_no}.txt')
