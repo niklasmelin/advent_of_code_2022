@@ -22,7 +22,7 @@ def load_data(file_path):
 
 class AdventOfCodeTests(unittest.TestCase):
 
-    def test_1_09_test_data(self):
+    def test_01_1_test_data(self):
         """
         Day 1 - Test Data
         """
@@ -47,7 +47,7 @@ class AdventOfCodeTests(unittest.TestCase):
             print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
             raise
 
-    def test_2_09_actual_data(self):
+    def test_01_2_actual_data(self):
         """
         Day 1 - Actual Data
         """
@@ -72,3 +72,52 @@ class AdventOfCodeTests(unittest.TestCase):
             print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
             raise
 
+    def test_02_1_test_data(self):
+        """
+        Day 2 - Test Data
+        """
+        day_no = '02'
+        try:
+            print(f'\n Day {day_no} - Test', flush=True)
+
+            expected_result = (15, 12)
+
+            # Source data
+            input_path = input_data_path.joinpath(f'{day_no}_test.txt')
+
+            # Load data
+            data = load_data(input_path)
+
+            # Crunch data
+            from lib.day_02 import day_02
+            result = day_02(data, debug=False)
+
+            self.assertEqual(expected_result, result, msg=f'Day {day_no} - Test problem does not work for example data')
+        except (AssertionError, FileNotFoundError):
+            print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
+            raise
+
+    def test_02_2_actual_data(self):
+        """
+        Day 2 - Actual Data
+        """
+        day_no = '02'
+        try:
+            print(f'\n Day {day_no} - Actual', flush=True)
+
+            expected_result = (9759, 12429)
+
+            # Source data
+            input_path = input_data_path.joinpath(f'{day_no}.txt')
+
+            # Load data
+            data = load_data(input_path)
+
+            # Crunch data
+            from lib.day_02 import day_02
+            result = day_02(data)
+
+            self.assertEqual(expected_result, result, msg=f'Day {day_no} - Test problem does not work for example data')
+        except (AssertionError, FileNotFoundError):
+            print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
+            raise
