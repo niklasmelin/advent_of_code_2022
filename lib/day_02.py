@@ -24,25 +24,18 @@ def day_02(data, debug=False):
     # X - Lose
     # Y - Draw
     # Z - Win
-    move = {'A X': 'C',
-            'A Y': 'A',
-            'A Z': 'B',
+    move = {'A X': 'Z',
+            'A Y': 'X',
+            'A Z': 'Y',
 
-            'B X': 'A',
-            'B Y': 'B',
-            'B Z': 'C',
+            'B X': 'X',
+            'B Y': 'Y',
+            'B Z': 'Z',
 
-            'C X': 'B',
-            'C Y': 'C',
-            'C Z': 'A',
+            'C X': 'Y',
+            'C Y': 'Z',
+            'C Z': 'X',
             }
-    win_loss = {'Z': 6,
-                'Y': 3,
-                'X': 0}
-
-    translate = {'A': 'X',
-                 'B': 'Y',
-                 'C': 'Z'}
 
     points = {'X': 1,
               'Y': 2,
@@ -71,19 +64,12 @@ def day_02(data, debug=False):
 
         # Part 2
         # Get require selection
-        action = move[game]
-
-        # print(action, translate[action], points[translate[action]])
-        action_points = points[translate[action]]
-        win_loss_points = win_loss[game[-1]]
+        selection = move[game]
+        outcome = outcomes[f'{game[0]} {selection}']
 
         # Sum the points
-        game_points = action_points + win_loss_points
-
+        game_points = points[selection] + points[outcome]
         score2 += game_points
-
-        if debug:
-            print(f'2: {game} - {game[-1]}  - {action} - Type: {action_points} - Game: {win_loss_points} - Score: {game_points}\n')
 
     # Part 2
 
