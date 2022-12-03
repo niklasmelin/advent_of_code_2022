@@ -42,13 +42,13 @@ def day_03(data, debug=False):
                 packs[j][pos] = priority[letter]
 
         # Get the unique prio
-        bage_group_prio = reduce(numpy.intersect1d, (packs[0], packs[1], packs[2]))
+        badge_group_prio = reduce(numpy.intersect1d, (packs[0], packs[1], packs[2]))
 
         # Sum up the prios
-        badge_group_prio_sum += bage_group_prio[0]
+        badge_group_prio_sum += badge_group_prio[0]
 
     print(f'\tDay 03')
     print(f'\t\tPart 1: Sum of the priorities {sum_duplicate_prio}')
-    print(f'\t\tPart 2: Top three elfs calories total {badge_group_prio_sum}\n')
+    print(f'\t\tPart 2: Sum of badge group priorities {badge_group_prio_sum}\n')
 
     return sum_duplicate_prio, badge_group_prio_sum
