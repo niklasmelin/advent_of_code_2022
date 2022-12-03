@@ -4,10 +4,13 @@ from datetime import datetime
 
 def load_data(file_path):
     data = list()
-    with open(file_path) as file_handle:
-        for line in file_handle.readlines():
-            data.append(line.strip())
-    return data
+    try:
+        with open(file_path) as file_handle:
+            for line in file_handle.readlines():
+                data.append(line.strip())
+        return data
+    except FileNotFoundError:
+        print(f' Expected file not found: \n {file_path.absolute().as_posix()}')
 
 
 def _day_01():
@@ -36,7 +39,7 @@ def _day_03():
     from lib.day_03 import day_03
 
     # Path to input data
-    input_data_path = pathlib.Path().joinpath('inputs/03.txt')
+    input_data_path = pathlib.Path().joinpath('../inputs/03_test.txt')
     # Load the data from file
     input_data = load_data(input_data_path)
 
@@ -119,4 +122,4 @@ def _day_09():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-    _day_01()
+    _day_03()
