@@ -10,13 +10,10 @@ def day_03(data, debug=False):
 
     # Assemble priority dictionary
     priority = dict()
-    priority_reverse = dict()
     for prio, letter in enumerate(small_letters, start=1):
         priority[letter] = prio
-        priority_reverse[prio] = letter
     for prio, letter in enumerate(big_letters, start=27):
         priority[letter] = prio
-        priority_reverse[prio] = letter
 
     # Part 1
     sum_duplicate_prio = 0
