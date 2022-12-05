@@ -20,6 +20,13 @@ def load_data(file_path):
     return data
 
 
+def load_raw_data(file_path):
+    data = list()
+    with open(file_path) as file_handle:
+        for line in file_handle.readlines():
+            data.append(line)
+    return data
+
 class AdventOfCodeTests(unittest.TestCase):
 
     def test_01_1_test_data(self):
@@ -216,6 +223,58 @@ class AdventOfCodeTests(unittest.TestCase):
             # Crunch data
             from lib.day_04 import day_04
             result = day_04(data, debug=True)
+
+            self.assertEqual(expected_result, result, msg=f'Day {day_no} - Test problem does not work for example data')
+        except (AssertionError, FileNotFoundError):
+            print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
+            raise
+
+    def test_05_1_test_data(self):
+        """
+        Day 5 - Test Data
+        """
+        day_no = '05'
+        try:
+            print(f'\n Day {day_no} - Test', flush=True)
+
+            expected_result = (['C', 'M', 'Z'],
+                               ['M', 'C', 'D'])
+
+            # Source data
+            input_path = input_data_path.joinpath(f'{day_no}_test.txt')
+
+            # Load data
+            data = load_raw_data(input_path)
+
+            # Crunch data
+            from lib.day_05 import day_05
+            result = day_05(data, debug=True)
+
+            self.assertEqual(expected_result, result, msg=f'Day {day_no} - Test problem does not work for example data')
+        except (AssertionError, FileNotFoundError):
+            print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
+            raise
+
+    def test_05_2_actual_data(self):
+        """
+        Day 5 - Actual Data
+        """
+        day_no = '05'
+        try:
+            print(f'\n Day {day_no} - Actual', flush=True)
+
+            expected_result = (['D', 'H', 'B', 'J', 'Q', 'J', 'C', 'C', 'W'],
+                               ['W', 'J', 'V', 'R', 'L', 'S', 'J', 'J', 'T'])
+
+            # Source data
+            input_path = input_data_path.joinpath(f'{day_no}.txt')
+
+            # Load data
+            data = load_raw_data(input_path)
+
+            # Crunch data
+            from lib.day_05 import day_05
+            result = day_05(data, debug=True)
 
             self.assertEqual(expected_result, result, msg=f'Day {day_no} - Test problem does not work for example data')
         except (AssertionError, FileNotFoundError):
