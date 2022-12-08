@@ -41,7 +41,7 @@ def day_07(data, debug=False):
             while True:
                 if line_no >= len(data):
                     break
-                print(line_no, len(data))
+                # print(line_no, len(data))
                 line = data[line_no]
 
                 if line.startswith('$ cd ..'):
@@ -71,13 +71,12 @@ def day_07(data, debug=False):
                     folders[folder_name] = list()
 
                     folders_path[current_path.as_posix()] = list()
+                    print(folder_name, current_path.as_posix(), folders_path)
 
                 elif not line.startswith('$'):
                     size, name = line.split()
-                    folders[current_folder].append(size)
-
-                    folders_path[current_path.as_posix()].append(size)
-
+                    if not current_path.as_posix() in folders_path:
+                        folders_path[current_path.as_posix()] = list()
                     folders_path[current_path.as_posix()].append(int(size))
 
 
@@ -85,7 +84,6 @@ def day_07(data, debug=False):
                     break
 
                 line_no += 1
-                print(line_no)
         line_no += 1
 
         if line_no >= len(data):
@@ -101,10 +99,13 @@ def day_07(data, debug=False):
         size = 0
         for file_size in file_sizes:
             size += int(file_size)
-        print(f'\t{folder} - Size: {file_size}')
+        print(f'\t{folder} - Size: {size}')
 
     for path, file_sizes in folders_path.items():
-        print(f'{path} - {file_sizes}')
+        size = 0
+        for file_size in file_sizes:
+            size += int(file_size)
+        print(f'{path} - {size}')
 
     # Part 2
 
