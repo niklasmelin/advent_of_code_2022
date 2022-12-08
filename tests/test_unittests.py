@@ -330,3 +330,29 @@ class AdventOfCodeTests(unittest.TestCase):
         except (AssertionError, FileNotFoundError):
             print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
             raise
+
+
+    def test_07_1_test_data(self):
+        """
+        Day 6 - Test Data
+        """
+        day_no = '07'
+        try:
+            print(f'\n Day {day_no} - Test', flush=True)
+
+            expected_result = ([7, 5, 6, 10, 11], [19, 23, 23, 26])
+
+            # Source data
+            input_path = input_data_path.joinpath(f'{day_no}_test.txt')
+
+            # Load data
+            data = load_data(input_path)
+
+            # Crunch data
+            from lib.day_07 import day_07
+            result = day_07(data, debug=True)
+
+            self.assertEqual(expected_result, result, msg=f'Day {day_no} - Test problem does not work for example data')
+        except (AssertionError, FileNotFoundError):
+            print(f" *** Day {day_no} FAILED: Problem does not work for example data", flush=True)
+            raise
