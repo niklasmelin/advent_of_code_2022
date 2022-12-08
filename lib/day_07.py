@@ -30,10 +30,6 @@ def day_07(data, debug=False):
             current_folder = line.split()[-1]
             current_path = current_path / current_folder
 
-            folder_depth.append(current_folder)
-            if current_folder not in folders:
-                folders[current_folder] = list()
-
             if current_path.as_posix() not in folders_path:
                 folders_path[current_path.as_posix()] = list()
 
@@ -41,44 +37,26 @@ def day_07(data, debug=False):
             while True:
                 if line_no >= len(data):
                     break
-                # print(line_no, len(data))
                 line = data[line_no]
-
                 if line.startswith('$ cd ..'):
-                    print(folder_depth)
-                    if len(folder_depth) > 1:
-                        print(f" Change up from {current_folder} to {folder_depth[-2]}")
-                        line_no -= 1
-                        folder_depth.pop(-1)
-                        current_folder = folder_depth[-1]
-                    else:
-                        print('At root already!')
-
                     try:
-                        current_path = current_path.parents[1]
+                        current_path = current_path.parents[0]
+                        print(f"\tChange UP from {current_path.as_posix()} to {current_path.parents[0].as_posix()}")
                     except:
                         pass
 
                 elif line.startswith('$ cd'):
-                    print(f" Change down from {folder_depth[-1]} to  {line.split()[-1]}")
                     current_folder = line.split()[-1]
-                    folder_depth.append(current_folder)
-
                     current_path = current_path / current_folder
+                    print(f"\tChange DOWN from {current_path.parents[0].as_posix()} to {current_path.as_posix()}")
 
                 if line.startswith('dir'):
-                    folder_name = line.split()[-1]
-                    folders[folder_name] = list()
-
-                    folders_path[current_path.as_posix()] = list()
-                    print(folder_name, current_path.as_posix(), folders_path)
-
+                   pass
                 elif not line.startswith('$'):
                     size, name = line.split()
                     if not current_path.as_posix() in folders_path:
                         folders_path[current_path.as_posix()] = list()
                     folders_path[current_path.as_posix()].append(int(size))
-
 
                 if line_no >= len(data):
                     break
@@ -88,26 +66,17 @@ def day_07(data, debug=False):
 
         if line_no >= len(data):
             break
-    print(folders)
-
-
 
     # Part 1
-    print('Part 1')
-
-    for folder, file_sizes in folders.items():
-        size = 0
-        for file_size in file_sizes:
-            size += int(file_size)
-        print(f'\t{folder} - Size: {size}')
-
+    print(' Part 1')
     for path, file_sizes in folders_path.items():
         size = 0
         for file_size in file_sizes:
             size += int(file_size)
-        print(f'{path} - {size}')
+        print(f'\t{path} - {size}')
 
     # Part 2
+    print(' Part 2')
 
     print(f'\tDay 07')
     print(f'\t\tPart 1: Stream marker pos: {0}')
