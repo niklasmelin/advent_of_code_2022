@@ -1,7 +1,5 @@
 import pathlib
 
-path_sizes = dict()
-
 def traverse_folders(file, line_no=0):
     folders, files = [0, 0]
 
@@ -84,18 +82,18 @@ def day_07(data, debug=False):
             print(f' Path: {path} has children {children}')
         relatives[path] = children
 
-    def sum_children(start_child, _relatives, _path_file_size):
-        global path_sizes
+    def sum_children(start_child, _relatives, _path_file_size, _path_sizes):
         total_children = 0
         for child in _relatives[start_child]:
-            total_children += sum_children(child, _relatives, _path_file_size)
+            total_path_children, _path_sizes = sum_children(child, _relatives, _path_file_size, _path_sizes)
+            total_children += total_path_children
         # Sum children sizes and sizes in this path
         total = total_children + path_file_size[start_child]
-        path_sizes[start_child] = total
-        return total
+        _path_sizes[start_child] = total
+        return total, _path_sizes
 
-    total = sum_children('/', relatives, path_file_size)
-
+    path_sizes = dict()
+    total, path_sizes = sum_children('/', relatives, path_file_size, path_sizes)
 
     print('Sizes recursively for each path')
     for path, size in path_sizes.items():
