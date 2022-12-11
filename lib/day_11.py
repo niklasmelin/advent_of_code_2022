@@ -142,6 +142,8 @@ def day_11(data, debug=False):
         monkey_no += 1
 
     for i in range(1, rounds_to_play + 1):
+        if i % 500 == 0:
+            print(f'\t Played {i} rounds of {rounds_to_play}')
         for a_monkey, monkey in monkeys.items():
             inspected_items = monkey.inspection(managed_risk=False)
 
