@@ -74,7 +74,7 @@ def day_07(data, debug=False):
         size = 0
         for file_size in file_sizes:
             size += int(file_size)
-        print(f'\t{path} - {size}')
+        # print(f'\t{path} - {size}')
         path_file_size[path] = size
 
     # Relationships
@@ -101,7 +101,7 @@ def day_07(data, debug=False):
             total_children += total_path_children
         # Sum children sizes and sizes in this path
         total = total_children + path_file_size[start_child]
-        print(f' {start_child}\n\tChildren: {total_children}\n\tPath: {path_file_size[start_child]}\n\tTotal: {total}')
+        # print(f' {start_child}\n\tChildren: {total_children}\n\tPath: {path_file_size[start_child]}\n\tTotal: {total}')
 
         _path_sizes[start_child] = total
         return total, _path_sizes, _done_list
