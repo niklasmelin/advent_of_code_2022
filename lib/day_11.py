@@ -20,10 +20,14 @@ class Monkey:
 
         # Starting items
         for i in input_data[1].split(':')[-1].split(','):
-            self.items.append(int(i))
+            self.items.append(numpy.int64(int(i)))
 
         # Operation
-        self.operation = input_data[2].split('=')[-1].strip().split(' ')[1:]
+        operation, value = input_data[2].split('=')[-1].strip().split(' ')[1:]
+        if value != 'old':
+            self.operation = [operation, numpy.int16(value)]
+        else:
+            self.operation = [operation, 'old']
 
         # Test condition
         self.divisible_by = int(input_data[3].split()[-1])
@@ -55,15 +59,28 @@ class Monkey:
             if self.operation[1] == 'old':
                 if self.debug:
                     print(f'\t Use {self.operation[0]} and "old')
-                new_worry_level = eval(f'{item} {self.operation[0]} {item}')
+
+                if self.operation[0] == '*':
+                    new_worry_level = item * item
+                elif self.operation[0] == '+':
+                    new_worry_level = item + item
+                else:
+                    print('ERROR')
+
             else:
                 if self.debug:
                     print(f'\t Use {self.operation[0]} and {self.operation[1]}')
-                new_worry_level = eval(f'{item} {self.operation[0]} {self.operation[1]}')
+                # new_worry_level = eval(f'{item} {self.operation[0]} {self.operation[1]}')
+                if self.operation[0] == '*':
+                    new_worry_level = item * self.operation[1]
+                elif self.operation[0] == '+':
+                    new_worry_level = item + self.operation[1]
+                else:
+                    print('ERROR')
 
             if managed_risk:
                 # Divide worry level by 3
-                new_worry_level = floor(new_worry_level / 3)
+                new_worry_level = numpy.floor(new_worry_level / 3)
 
             if new_worry_level % self.divisible_by == 0:
                 # Dividable without a rest
@@ -89,7 +106,7 @@ class Monkey:
 
     def add_item(self, item):
         if self.debug:
-            print(f' Monkey {self.monkey_no} received item {item}')
+            print(f' Monkey {self.monkey_no} received item {item} - {type(item)}')
         self.items.append(item)
 
 
@@ -122,7 +139,9 @@ def day_11(data, debug=False):
 
     # Get Monkey business
     passes = list()
+    print(f'\t === After round {rounds_to_play} ===')
     for a_monkey, monkey in monkeys.items():
+        print(f' \t Monkey {a_monkey} inspected items {monkey.inspected_items} times')
         passes.append(monkey.inspected_items)
     print(passes)
     passes.sort()
@@ -131,18 +150,18 @@ def day_11(data, debug=False):
     # Part 2
     print('Part 2')
 
-    rounds_to_play = 10000
+    rounds_to_play = 1000
 
     # Populate monkeys
     monkeys = dict()
     monkey_no = 0
     for i in range(0, len(data), 7):
         print()
-        monkeys[monkey_no] = Monkey(data[i:i + 6], debug=debug)
+        monkeys[monkey_no] = Monkey(data[i:i + 6], debug=False)
         monkey_no += 1
 
     for i in range(1, rounds_to_play + 1):
-        if i % 500 == 0:
+        if i % 100 == 0:
             print(f'\t Played {i} rounds of {rounds_to_play}')
         for a_monkey, monkey in monkeys.items():
             inspected_items = monkey.inspection(managed_risk=False)
@@ -158,9 +177,10 @@ def day_11(data, debug=False):
 
     # Get Monkey business
     passes = list()
+    print(f'\t === After round {rounds_to_play} ===')
     for a_monkey, monkey in monkeys.items():
+        print(f' \t Monkey {a_monkey} inspected items {monkey.inspected_items} times')
         passes.append(monkey.inspected_items)
-    print(passes)
     passes.sort()
     monkey_business2 = passes[-2] * passes[-1]
 
