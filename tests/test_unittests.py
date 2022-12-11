@@ -339,7 +339,7 @@ class AdventOfCodeTests(unittest.TestCase):
         try:
             print(f'\n Day {day_no} - Test', flush=True)
 
-            expected_result = ([7, 5, 6, 10, 11], [19, 23, 23, 26])
+            expected_result = (95437, 24933642)
 
             # Source data
             input_path = input_data_path.joinpath(f'{day_no}_test.txt')
@@ -364,7 +364,7 @@ class AdventOfCodeTests(unittest.TestCase):
         try:
             print(f'\n Day {day_no} - Actual', flush=True)
 
-            expected_result = ([1343], [2193])
+            expected_result = (1449447, 8679207)
 
             # Source data
             input_path = input_data_path.joinpath(f'{day_no}.txt')
@@ -374,7 +374,7 @@ class AdventOfCodeTests(unittest.TestCase):
 
             # Crunch data
             from lib.day_07 import day_07
-            result = day_07(data, debug=True)
+            result = day_07(data, debug=False)
 
             self.assertEqual(expected_result, result, msg=f'Day {day_no} - Test problem does not work for example data')
         except (AssertionError, FileNotFoundError):
