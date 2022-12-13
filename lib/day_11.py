@@ -1,3 +1,4 @@
+import math
 from functools import reduce
 import numpy
 from math import floor
@@ -48,7 +49,7 @@ class Monkey:
                   f'\t\t False: Throw to monkey: {self.divisible_false}',
                   )
 
-    def inspection(self, managed_risk=True):
+    def inspection(self, managed_risk=True, least_common_denominator=False):
 
         inspection_list = list()
         for item_no, item in enumerate(self.items):
@@ -61,9 +62,9 @@ class Monkey:
                     print(f'\t Use {self.operation[0]} and "old')
 
                 if self.operation[0] == '*':
-                    new_worry_level = item * item
+                    new_worry_level = numpy.multiply(item, item)
                 elif self.operation[0] == '+':
-                    new_worry_level = item + item
+                    new_worry_level = numpy.add(item, item)
                 else:
                     print('ERROR')
 
@@ -72,9 +73,9 @@ class Monkey:
                     print(f'\t Use {self.operation[0]} and {self.operation[1]}')
                 # new_worry_level = eval(f'{item} {self.operation[0]} {self.operation[1]}')
                 if self.operation[0] == '*':
-                    new_worry_level = item * self.operation[1]
+                    new_worry_level = numpy.multiply(item, self.operation[1])
                 elif self.operation[0] == '+':
-                    new_worry_level = item + self.operation[1]
+                    new_worry_level = numpy.add(item, self.operation[1])
                 else:
                     print('ERROR')
 
@@ -82,19 +83,27 @@ class Monkey:
                 # Divide worry level by 3
                 new_worry_level = numpy.floor(new_worry_level / 3)
 
-            if new_worry_level % self.divisible_by == 0:
+            if least_common_denominator != False:
+                if new_worry_level > least_common_denominator:
+                    new_worry_level = least_common_denominator + new_worry_level % least_common_denominator
+
+            if numpy.mod(new_worry_level, self.divisible_by) == 0:
                 # Dividable without a rest
                 inspection_list.append([new_worry_level, self.divisible_true])
+                #inspection_list.append([self.divisible_by, self.divisible_true])
+
                 if self.debug:
                     print('\t Dividable')
             else:
                 # Not dividable without a rest
                 inspection_list.append([new_worry_level, self.divisible_false])
+                #inspection_list.append([self.divisible_by + numpy.mod(new_worry_level, self.divisible_by),
+                #                        self.divisible_false])
                 if self.debug:
                     print('\t Not Dividable')
 
             if self.debug:
-                print(f' Levels: {self.items[item_no] } -> {new_worry_level}')
+                print(f' Levels: {self.items[item_no] } -> {new_worry_level}, {type(new_worry_level)}')
 
         # All items have been inspected and monkey has passed them along
         self.items = list()
@@ -106,7 +115,7 @@ class Monkey:
 
     def add_item(self, item):
         if self.debug:
-            print(f' Monkey {self.monkey_no} received item {item} - {type(item)}')
+            print(f' Monkey {self.monkey_no} received item {item}')
         self.items.append(item)
 
 
@@ -150,21 +159,27 @@ def day_11(data, debug=False):
     # Part 2
     print('Part 2')
 
-    rounds_to_play = 1000
+    rounds_to_play = 10000
 
     # Populate monkeys
     monkeys = dict()
     monkey_no = 0
     for i in range(0, len(data), 7):
         print()
-        monkeys[monkey_no] = Monkey(data[i:i + 6], debug=False)
+        monkeys[monkey_no] = Monkey(data[i:i + 6], debug=debug)
         monkey_no += 1
 
+    # Least common denominator
+    dividable_by = list()
+    for monkey_name in monkeys.keys():
+        dividable_by.append(monkeys[monkey_name].divisible_by)
+    least_common_denominator = math.lcm(*dividable_by)
+
     for i in range(1, rounds_to_play + 1):
-        if i % 100 == 0:
+        if i % 1000 == 0:
             print(f'\t Played {i} rounds of {rounds_to_play}')
         for a_monkey, monkey in monkeys.items():
-            inspected_items = monkey.inspection(managed_risk=False)
+            inspected_items = monkey.inspection(managed_risk=False, least_common_denominator=least_common_denominator)
 
             for item, monkey_no in inspected_items:
                 monkeys[monkey_no].add_item(item)
@@ -186,6 +201,6 @@ def day_11(data, debug=False):
 
     print(f'\tDay 04')
     print(f'\t\tPart 1: Monkey business: {monkey_business}')
-    print(f'\t\tPart 2: Top crates: {monkey_business2}\n')
+    print(f'\t\tPart 2: Worried monkey business: {monkey_business2}\n')
 
     return monkey_business, monkey_business2
